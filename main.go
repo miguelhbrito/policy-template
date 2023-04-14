@@ -3,7 +3,7 @@ package main
 import (
 	onelog "github.com/francoispqt/onelog"
 	kubewarden "github.com/kubewarden/policy-sdk-go"
-	wapc "github.com/wapc/wapc-guest-tinygo"
+	"github.com/wapc/wapc-guest-tinygo"
 )
 
 var (

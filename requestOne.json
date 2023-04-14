@@ -1,0 +1,70 @@
+{
+	"kind": "AdmissionReview",
+	"apiVersion": "admission.k8s.io/v1",
+	"request": {
+		"uid": "150d1761-43fb-4f36-bb73-7a3888a0bca2",
+		"kind": {
+			"group": "",
+			"version": "v1",
+			"kind": "Namespace"
+		},
+		"resource": {
+			"group": "",
+			"version": "v1",
+			"resource": "namespaces"
+		},
+		"requestKind": {
+			"group": "",
+			"version": "v1",
+			"kind": "Namespace"
+		},
+		"requestResource": {
+			"group": "",
+			"version": "v1",
+			"resource": "namespaces"
+		},
+		"name": "test-policy-ns",
+		"namespace": "test-policy-ns",
+		"operation": "CREATE",
+		"userInfo": {
+			"username": "kubernetes-admin",
+			"groups": ["system:masters", "system:authenticated"]
+		},
+		"object": {
+			"kind": "Namespace",
+			"apiVersion": "v1",
+			"metadata": {
+				"name": "test-policy-ns",
+                "labels":{
+					"env": "production"
+				},
+				"uid": "2cc6b1fc-7896-4091-b9c3-e034c89c0535",
+				"creationTimestamp": "2021-05-27T15:55:39Z",
+				"managedFields": [{
+					"manager": "kubectl",
+					"operation": "Update",
+					"apiVersion": "v1",
+					"time": "2021-05-27T15:55:39Z",
+					"fieldsType": "FieldsV1",
+					"fieldsV1": {
+						"f:status": {
+							"f:phase": {}
+						}
+					}
+				}]
+			},
+			"spec": {
+				"finalizers": ["kubernetes"]
+			},
+			"status": {
+				"phase": "Active"
+			}
+		},
+		"oldObject": null,
+		"dryRun": false,
+		"options": {
+			"kind": "CreateOptions",
+			"apiVersion": "meta.k8s.io/v1"
+		}
+	}
+}

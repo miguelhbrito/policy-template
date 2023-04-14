@@ -25,6 +25,17 @@ func (s *Settings) IsNameDenied(name string) bool {
 	return false
 }
 
+// Checks if given string is a palindrome
+// O(N)time and O(N)space
+func (s *Settings) IsPalindrome(stringValue string) bool {
+	result := []byte{}
+	for i := len(stringValue) - 1; i >= 0; i-- {
+		result = append(result, stringValue[i])
+	}
+
+	return stringValue == string(result)
+}
+
 func NewSettingsFromValidationReq(validationReq *kubewarden_protocol.ValidationRequest) (Settings, error) {
 	settings := Settings{}
 	err := easyjson.Unmarshal(validationReq.Settings, &settings)

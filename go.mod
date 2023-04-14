@@ -13,7 +13,13 @@ require (
 )
 
 require (
+	github.com/tidwall/match v1.0.3 // indirect
+	github.com/tidwall/pretty v1.0.2 // indirect
+)
+
+require (
 	github.com/francoispqt/gojay v0.0.0-20181220093123-f2cc13a668ca // indirect
 	github.com/go-openapi/strfmt v0.21.3 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
+	github.com/kubewarden/gjson v1.7.2
 )

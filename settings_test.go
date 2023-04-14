@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/mailru/easyjson"
 	"testing"
+
+	"github.com/mailru/easyjson"
 )
 
 func TestParsingSettingsWithNoValueProvided(t *testing.T) {
@@ -36,5 +37,17 @@ func TestIsNameDenied(t *testing.T) {
 
 	if settings.IsNameDenied("alice") {
 		t.Errorf("name should not be denied")
+	}
+}
+
+func TestIsPalindrome(t *testing.T) {
+	settings := Settings{}
+
+	if !settings.IsPalindrome("arara") {
+		t.Errorf("string should be denied")
+	}
+
+	if settings.IsPalindrome("zelda") {
+		t.Errorf("string should not be denied")
 	}
 }

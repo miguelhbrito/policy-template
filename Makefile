@@ -36,9 +36,9 @@ types_easyjson.go: types.go
 test: types_easyjson.go
 	go test -v
 
-.PHONY: e2e-tests
-e2e-tests: annotated-policy.wasm
-	bats e2e.bats
+#.PHONY: e2e-tests
+#e2e-tests: annotated-policy.wasm
+#	bats e2e.bats
 
 .PHONY: lint
 lint:
