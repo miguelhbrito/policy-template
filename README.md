@@ -9,7 +9,6 @@ This repository contains a working policy written in Go.
 The policy looks at the `labels` of a Kubernetes Pod and rejects the request
 if the key is a palindrome.
 
-The deny list is configurable by the user via the runtime settings of the policy.
 The configuration of the policy is expressed via this structure:
 
 ```json
