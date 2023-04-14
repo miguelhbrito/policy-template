@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 
 	onelog "github.com/francoispqt/onelog"
 	corev1 "github.com/kubewarden/k8s-objects/api/core/v1"
@@ -40,23 +39,6 @@ func validate(payload []byte) ([]byte, error) {
 			kubewarden.Message(
 				fmt.Sprintf("Cannot decode Pod object: %s", err.Error())),
 			kubewarden.Code(400))
-	}
-
-	logger.DebugWithFields("validating pod object", func(e onelog.Entry) {
-		e.String("name", pod.Metadata.Name)
-		e.String("namespace", pod.Metadata.Namespace)
-	})
-
-	if settings.IsNameDenied(pod.Metadata.Name) {
-		logger.InfoWithFields("rejecting pod object", func(e onelog.Entry) {
-			e.String("name", pod.Metadata.Name)
-			e.String("denied_names", strings.Join(settings.DeniedNames, ","))
-		})
-
-		return kubewarden.RejectRequest(
-			kubewarden.Message(
-				fmt.Sprintf("The '%s' name is on the deny list", pod.Metadata.Name)),
-			kubewarden.NoCode)
 	}
 
 	logger.Debug("validating label keys")

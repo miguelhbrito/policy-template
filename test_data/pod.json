@@ -12,8 +12,8 @@
       "name": "test-pod",
       "namespace": "default",
       "labels": {
-        "cc-center": "123",
-        "owner": "team-alpha"
+        "open": "suse",
+        "env": "prod"
       }
     },
     "spec": {

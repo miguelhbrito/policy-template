@@ -26,20 +26,6 @@ func TestParsingSettingsWithNoValueProvided(t *testing.T) {
 	}
 }
 
-func TestIsNameDenied(t *testing.T) {
-	settings := Settings{
-		DeniedNames: []string{"bob"},
-	}
-
-	if !settings.IsNameDenied("bob") {
-		t.Errorf("name should be denied")
-	}
-
-	if settings.IsNameDenied("alice") {
-		t.Errorf("name should not be denied")
-	}
-}
-
 func TestIsPalindrome(t *testing.T) {
 	settings := Settings{}
 
