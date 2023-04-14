@@ -169,7 +169,7 @@ func TestRejectionBecauseKeyLabelIsPalindrome(t *testing.T) {
 		t.Error("Unexpected approval")
 	}
 
-	expected_message := "The keys labels '[level]' are palindromes"
+	expected_message := "The label keys '[level]' are palindromes"
 	if response.Message == nil {
 		t.Errorf("expected response to have a message")
 	}

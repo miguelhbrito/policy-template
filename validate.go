@@ -61,12 +61,12 @@ func validate(payload []byte) ([]byte, error) {
 
 	logger.Debug("validating labels keys")
 
-	// Validates every key label to check if is a palindrome
+	// Validates every label key to check if is a palindrome
 	var keysLabels []string
 	for key, _ := range pod.Metadata.Labels {
 		if settings.IsPalindrome(key) {
 			logger.InfoWithFields("rejecting label key", func(e onelog.Entry) {
-				e.String("key label", key)
+				e.String("label key", key)
 			})
 
 			keysLabels = append(keysLabels, key)
@@ -75,7 +75,7 @@ func validate(payload []byte) ([]byte, error) {
 	if len(keysLabels) > 0 {
 		return kubewarden.RejectRequest(
 			kubewarden.Message(
-				fmt.Sprintf("The keys labels '%v' are palindromes", keysLabels)),
+				fmt.Sprintf("The label keys '%v' are palindromes", keysLabels)),
 			kubewarden.NoCode)
 	}
 

@@ -1,24 +1,23 @@
-# go-policy-template
+# policy-template-open-suse
 
-This is a template repository that can be used to quickly scaffold a
-Kubewarden policy written with Go language.
-
-Don't forget to checkout Kubewarden's [official documentation](https://docs.kubewarden.io)
-for more information about writing policies.
+Technical Assessment
 
 ## Introduction
 
 This repository contains a working policy written in Go.
 
-The policy looks at the `name` of a Kubernetes Pod and rejects the request
-if the name is on a deny list.
+The policy looks at the `labels` of a Kubernetes Pod and rejects the request
+if the key is a palindrome.
 
 The deny list is configurable by the user via the runtime settings of the policy.
 The configuration of the policy is expressed via this structure:
 
 ```json
 {
-  "denied_names": [ "badname1", "badname2" ]
+   "labels"{ 
+    "env": "production", 
+    "level": "debug"
+   } 
 }
 ```
 
@@ -96,22 +95,8 @@ This is done by a second set of end-to-end tests. These tests use the
 `kwctl` cli provided by the Kubewarden project to load and execute
 the policy.
 
-The e2e tests are implemented using [bats](https://github.com/bats-core/bats-core):
-the Bash Automated Testing System.
-
-The end-to-end tests are defined inside of the `e2e.bats` file and can
-be run via this command:
-
-```shell
-make e2e-tests
-```
-
 ## Automation
 
 This project contains the following [GitHub Actions](https://docs.github.com/en/actions):
 
-  * `e2e-tests`: this action builds the WebAssembly policy, installs
-    the `bats` utility and then runs the end-to-end test
   * `unit-tests`: this action runs the Go unit tests
-  * `release`: this action builds the WebAssembly policy and pushes it to a
-    user defined OCI registry ([ghcr](https://ghcr.io) is a perfect candidate)
