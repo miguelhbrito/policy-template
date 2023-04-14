@@ -95,6 +95,35 @@ func TestApproveFixture(t *testing.T) {
 	}
 }
 
+func TestApproveFixturePod2(t *testing.T) {
+	settings := Settings{}
+
+	payload, err := kubewarden_testing.BuildValidationRequestFromFixture(
+		"test_data/pod2.json",
+		&settings)
+	if err != nil {
+		t.Errorf("Unexpected error: %+v", err)
+	}
+
+	responsePayload, err := validate(payload)
+	if err != nil {
+		t.Errorf("Unexpected error: %+v", err)
+	}
+
+	var response kubewarden_protocol.ValidationResponse
+	if err := easyjson.Unmarshal(responsePayload, &response); err != nil {
+		t.Errorf("Unexpected error: %+v", err)
+	}
+
+	expected_message := "The label key 'level' is a palindrome"
+	if response.Message == nil {
+		t.Errorf("expected response to have a message")
+	}
+	if *response.Message != expected_message {
+		t.Errorf("Got '%s' instead of '%s'", *response.Message, expected_message)
+	}
+}
+
 func TestRejectionBecauseKeyLabelIsPalindrome(t *testing.T) {
 	settings := Settings{}
 
