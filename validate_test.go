@@ -41,9 +41,7 @@ func TestEmptySettingsLeadsToApproval(t *testing.T) {
 }
 
 func TestApproval(t *testing.T) {
-	settings := Settings{
-		DeniedNames: []string{"foo", "bar"},
-	}
+	settings := Settings{}
 	pod := corev1.Pod{
 		Metadata: &metav1.ObjectMeta{
 			Name:      "test-pod",
@@ -73,9 +71,7 @@ func TestApproval(t *testing.T) {
 }
 
 func TestApproveFixture(t *testing.T) {
-	settings := Settings{
-		DeniedNames: []string{},
-	}
+	settings := Settings{}
 
 	payload, err := kubewarden_testing.BuildValidationRequestFromFixture(
 		"test_data/pod.json",
@@ -99,19 +95,12 @@ func TestApproveFixture(t *testing.T) {
 	}
 }
 
-func TestRejectionBecauseNameIsDenied(t *testing.T) {
-	settings := Settings{
-		DeniedNames: []string{"foo", "test-pod"},
-	}
+func TestApproveFixturePod2(t *testing.T) {
+	settings := Settings{}
 
-	pod := corev1.Pod{
-		Metadata: &metav1.ObjectMeta{
-			Name:      "test-pod",
-			Namespace: "default",
-		},
-	}
-
-	payload, err := kubewarden_testing.BuildValidationRequest(&pod, &settings)
+	payload, err := kubewarden_testing.BuildValidationRequestFromFixture(
+		"test_data/pod2.json",
+		&settings)
 	if err != nil {
 		t.Errorf("Unexpected error: %+v", err)
 	}
@@ -126,11 +115,7 @@ func TestRejectionBecauseNameIsDenied(t *testing.T) {
 		t.Errorf("Unexpected error: %+v", err)
 	}
 
-	if response.Accepted != false {
-		t.Error("Unexpected approval")
-	}
-
-	expected_message := "The 'test-pod' name is on the deny list"
+	expected_message := "The label key 'level' is a palindrome"
 	if response.Message == nil {
 		t.Errorf("expected response to have a message")
 	}
@@ -169,7 +154,7 @@ func TestRejectionBecauseKeyLabelIsPalindrome(t *testing.T) {
 		t.Error("Unexpected approval")
 	}
 
-	expected_message := "The label keys '[level]' are palindromes"
+	expected_message := "The label key 'level' is a palindrome"
 	if response.Message == nil {
 		t.Errorf("expected response to have a message")
 	}

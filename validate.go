@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 
 	onelog "github.com/francoispqt/onelog"
 	corev1 "github.com/kubewarden/k8s-objects/api/core/v1"
@@ -42,41 +41,20 @@ func validate(payload []byte) ([]byte, error) {
 			kubewarden.Code(400))
 	}
 
-	logger.DebugWithFields("validating pod object", func(e onelog.Entry) {
-		e.String("name", pod.Metadata.Name)
-		e.String("namespace", pod.Metadata.Namespace)
-	})
+	logger.Debug("validating label keys")
 
-	if settings.IsNameDenied(pod.Metadata.Name) {
-		logger.InfoWithFields("rejecting pod object", func(e onelog.Entry) {
-			e.String("name", pod.Metadata.Name)
-			e.String("denied_names", strings.Join(settings.DeniedNames, ","))
-		})
-
-		return kubewarden.RejectRequest(
-			kubewarden.Message(
-				fmt.Sprintf("The '%s' name is on the deny list", pod.Metadata.Name)),
-			kubewarden.NoCode)
-	}
-
-	logger.Debug("validating labels keys")
-
-	// Validates every label key to check if is a palindrome
-	var keysLabels []string
-	for key, _ := range pod.Metadata.Labels {
+  // Validates every label key to check if is a palindrome
+	for key := range pod.Metadata.Labels {
 		if settings.IsPalindrome(key) {
 			logger.InfoWithFields("rejecting label key", func(e onelog.Entry) {
 				e.String("label key", key)
 			})
 
-			keysLabels = append(keysLabels, key)
+			return kubewarden.RejectRequest(
+				kubewarden.Message(
+					fmt.Sprintf("The label key '%s' is a palindrome", key)),
+				kubewarden.NoCode)
 		}
-	}
-	if len(keysLabels) > 0 {
-		return kubewarden.RejectRequest(
-			kubewarden.Message(
-				fmt.Sprintf("The label keys '%v' are palindromes", keysLabels)),
-			kubewarden.NoCode)
 	}
 
 	return kubewarden.AcceptRequest()

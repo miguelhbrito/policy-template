@@ -15,16 +15,6 @@ func (s *Settings) Valid() (bool, error) {
 	return true, nil
 }
 
-func (s *Settings) IsNameDenied(name string) bool {
-	for _, deniedName := range s.DeniedNames {
-		if deniedName == name {
-			return true
-		}
-	}
-
-	return false
-}
-
 // Checks if given string is a palindrome
 // O(N)time and O(N)space
 func (s *Settings) IsPalindrome(stringValue string) bool {
