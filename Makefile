@@ -1,7 +1,7 @@
 SOURCE_FILES := $(shell find . -type f -name '*.go')
 # It's necessary to call cut because kwctl command does not handle version
 # starting with v.
-VERSION ?= $(shell git describe --match "v*" --always --tags)
+VERSION ?= $(shell git describe --tags --always | cut -c2-)
 
 
 policy.wasm: $(SOURCE_FILES) go.mod go.sum types_easyjson.go
@@ -23,7 +23,7 @@ artifacthub-pkg.yml: metadata.yml go.mod
 
 annotated-policy.wasm: policy.wasm metadata.yml artifacthub-pkg.yml
 	kwctl annotate -m metadata.yml -u README.md -o annotated-policy.wasm policy.wasm
-	
+
 .PHONY: generate-easyjson
 types_easyjson.go: types.go
 	docker run \
@@ -35,6 +35,10 @@ types_easyjson.go: types.go
 .PHONY: test
 test: types_easyjson.go
 	go test -v
+
+.PHONY: e2e-tests
+e2e-tests: annotated-policy.wasm
+	bats e2e.bats
 
 .PHONY: lint
 lint:
