@@ -54,7 +54,7 @@ The unit tests can be run via a simple command:
 make test
 ```
 
-To run another test with requestOne.json, just type:
+To run a test policy.wasm with requestOne.json, just type:
 ```shell
 kwctl run policy.wasm --request-path requestOne.json 2> /dev/null | jq
 ```
