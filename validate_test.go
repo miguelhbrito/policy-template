@@ -115,7 +115,7 @@ func TestApproveFixturePod2(t *testing.T) {
 		t.Errorf("Unexpected error: %+v", err)
 	}
 
-	expected_message := "The label key 'level' is a palindrome"
+	expected_message := "The label keys '[level]' are palindromes"
 	if response.Message == nil {
 		t.Errorf("expected response to have a message")
 	}
@@ -131,7 +131,7 @@ func TestRejectionBecauseKeyLabelIsPalindrome(t *testing.T) {
 		Metadata: &metav1.ObjectMeta{
 			Name:      "test-pod",
 			Namespace: "default",
-			Labels:    map[string]string{"env": "production", "level": "debug"},
+			Labels:    map[string]string{"env": "production", "level": "debug", "tenet": "first"},
 		},
 	}
 
@@ -154,7 +154,7 @@ func TestRejectionBecauseKeyLabelIsPalindrome(t *testing.T) {
 		t.Error("Unexpected approval")
 	}
 
-	expected_message := "The label key 'level' is a palindrome"
+	expected_message := "The label keys '[level tenet]' are palindromes"
 	if response.Message == nil {
 		t.Errorf("expected response to have a message")
 	}
