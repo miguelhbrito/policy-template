@@ -12,18 +12,6 @@ policy.wasm: $(SOURCE_FILES) go.mod go.sum types_easyjson.go
 		-w /src tinygo/tinygo:0.27.0 \
 		tinygo build -o policy.wasm -target=wasi -no-debug .
 
-artifacthub-pkg.yml: metadata.yml go.mod
-	$(warning If you are updating the artifacthub-pkg.yml file for a release, \
-	  remember to set the VERSION variable with the proper value. \
-	  To use the latest tag, use the following command:  \
-	  make VERSION=$$(git describe --tags --abbrev=0 | cut -c2-) annotated-policy.wasm)
-	kwctl scaffold artifacthub \
-	  --metadata-path metadata.yml --version $(CVERSION) \
-	  --output artifacthub-pkg.yml
-
-annotated-policy.wasm: policy.wasm metadata.yml artifacthub-pkg.yml
-	kwctl annotate -m metadata.yml -u README.md -o annotated-policy.wasm policy.wasm
-
 .PHONY: generate-easyjson
 types_easyjson.go: types.go
 	docker run \
@@ -35,10 +23,6 @@ types_easyjson.go: types.go
 .PHONY: test
 test: types_easyjson.go
 	go test -v
-
-.PHONY: e2e-tests
-e2e-tests: annotated-policy.wasm
-	bats e2e.bats
 
 .PHONY: lint
 lint:
