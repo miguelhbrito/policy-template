@@ -41,12 +41,11 @@ func validate(payload []byte) ([]byte, error) {
 			kubewarden.Code(400))
 	}
 
-	logger.Debug("validating label keys")
-
-  // Validates every label key to check if is a palindrome
+	logger.Debug("validating labels")
+	// Validates every label key to check if is a palindrome
 	for key := range pod.Metadata.Labels {
 		if settings.IsPalindrome(key) {
-			logger.InfoWithFields("rejecting label key", func(e onelog.Entry) {
+			logger.InfoWithFields("rejecting label", func(e onelog.Entry) {
 				e.String("label key", key)
 			})
 
