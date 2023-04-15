@@ -1,10 +1,8 @@
 # policy-template-open-suse
 
-Technical Assessment
+Technical Assessment - SUSE - Software Engineer - Container Technology
 
 ## Introduction
-
-This repository contains a working policy written in Go.
 
 The policy looks at the `labels` of a Kubernetes Pod and rejects the request
 if the key is a palindrome.
@@ -19,6 +17,8 @@ The configuration of the policy is expressed via this structure:
    } 
 }
 ```
+
+The work 'level' is a palindrome, the request will be rejected.
 
 ## Code organization
 
@@ -37,9 +37,3 @@ The unit tests can be run via a simple command:
 ```shell
 make test
 ```
-
-## Automation
-
-This project contains the following [GitHub Actions](https://docs.github.com/en/actions):
-
-  * `unit-tests`: this action runs the Go unit tests
