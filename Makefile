@@ -1,7 +1,7 @@
 SOURCE_FILES := $(shell find . -type f -name '*.go')
 # It's necessary to call cut because kwctl command does not handle version
 # starting with v.
-VERSION ?= $(shell git describe | cut -c2-)
+CVERSION ?= $(shell git describe | cut -c2-)
 
 
 policy.wasm: $(SOURCE_FILES) go.mod go.sum types_easyjson.go
@@ -18,7 +18,7 @@ artifacthub-pkg.yml: metadata.yml go.mod
 	  To use the latest tag, use the following command:  \
 	  make VERSION=$$(git describe --tags --abbrev=0 | cut -c2-) annotated-policy.wasm)
 	kwctl scaffold artifacthub \
-	  --metadata-path metadata.yml --version $(VERSION) \
+	  --metadata-path metadata.yml --version $(CVERSION) \
 	  --output artifacthub-pkg.yml
 
 annotated-policy.wasm: policy.wasm metadata.yml artifacthub-pkg.yml
