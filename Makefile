@@ -10,7 +10,7 @@ policy.wasm: $(SOURCE_FILES) go.mod go.sum types_easyjson.go
 		-e GOFLAGS="-buildvcs=false" \
 		-v ${PWD}:/src \
 		-w /src tinygo/tinygo:0.27.0 \
-		tinygo build -o policy.wasm -target=wasi -no-debug .
+		tinygo build -o palindromePolicy.wasm -target=wasi -no-debug .
 
 .PHONY: generate-easyjson
 types_easyjson.go: types.go
