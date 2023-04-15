@@ -18,7 +18,7 @@ artifacthub-pkg.yml: metadata.yml go.mod
 	  To use the latest tag, use the following command:  \
 	  make VERSION=$$(git describe --tags --abbrev=0 | cut -c2-) annotated-policy.wasm)
 	kwctl scaffold artifacthub \
-	  --metadata-path metadata.yml --version $(VERSION) \
+	  --metadata-path metadata.yml --version $(CVERSION) \
 	  --output artifacthub-pkg.yml
 
 annotated-policy.wasm: policy.wasm metadata.yml artifacthub-pkg.yml
