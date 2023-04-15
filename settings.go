@@ -3,21 +3,12 @@ package main
 import (
 	kubewarden "github.com/kubewarden/policy-sdk-go"
 	kubewarden_protocol "github.com/kubewarden/policy-sdk-go/protocol"
-	"github.com/mailru/easyjson"
-
-	"fmt"
+	easyjson "github.com/mailru/easyjson"
 )
-
-// The Settings class is defined inside of the `types.go` file
-
-// No special checks have to be done
-func (s *Settings) Valid() (bool, error) {
-	return true, nil
-}
 
 // Checks if given string is a palindrome
 // O(N)time and O(N)space
-func (s *Settings) IsPalindrome(stringValue string) bool {
+func (s *Settings) isPalindrome(stringValue string) bool {
 	result := []byte{}
 	for i := len(stringValue) - 1; i >= 0; i-- {
 		result = append(result, stringValue[i])
@@ -34,21 +25,5 @@ func NewSettingsFromValidationReq(validationReq *kubewarden_protocol.ValidationR
 
 func validateSettings(payload []byte) ([]byte, error) {
 	logger.Info("validating settings")
-
-	settings := Settings{}
-	err := easyjson.Unmarshal(payload, &settings)
-	if err != nil {
-		return kubewarden.RejectSettings(kubewarden.Message(fmt.Sprintf("Provided settings are not valid: %v", err)))
-	}
-
-	valid, err := settings.Valid()
-	if err != nil {
-		return kubewarden.RejectSettings(kubewarden.Message(fmt.Sprintf("Provided settings are not valid: %v", err)))
-	}
-	if valid {
-		return kubewarden.AcceptSettings()
-	}
-
-	logger.Warn("rejecting settings")
-	return kubewarden.RejectSettings(kubewarden.Message("Provided settings are not valid"))
+	return kubewarden.AcceptSettings()
 }
