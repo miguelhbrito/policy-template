@@ -24,14 +24,14 @@ The work 'level' is a palindrome, the request will be rejected.
 
 First delete the vendor file and run `make`:
 
-```console
+```shell
 rm -rf vendor
 make
 ```
 
 We can see the result by typing:
 
-```console
+```shell
 file policy.wasm
 policy.wasm: WebAssembly (wasm) binary module version 0x1 (MVP)
 ```
@@ -59,7 +59,7 @@ To run another test with requestOne.json, just type:
 kwctl run policy.wasm --request-path requestOne.json 2> /dev/null | jq
 ```
 
-The second test with requestTwo.json:
+The test with requestTwo.json, type:
 ```shell
 kwctl run policy.wasm --request-path requestTwo.json 2> /dev/null | jq
 ```
