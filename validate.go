@@ -41,8 +41,7 @@ func validate(payload []byte) ([]byte, error) {
 			kubewarden.Code(400))
 	}
 
-	logger.Debug("validating labels keys")
-
+	logger.Debug("validating labels")
 	// Validates every label key to check if is a palindrome
 	var keysLabels []string
 	for key := range pod.Metadata.Labels {

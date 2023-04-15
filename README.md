@@ -18,7 +18,7 @@ The configuration of the policy is expressed via this structure:
 }
 ```
 
-The work 'level' is a palindrome, the request will be rejected.
+The word 'level' is a palindrome, as result the request will be rejected.
 
 ## Steps
 

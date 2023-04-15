@@ -36,29 +36,6 @@ func easyjson6601e8cdDecodeTmpEasyjson(in *jlexer.Lexer, out *Settings) {
 			continue
 		}
 		switch key {
-		case "denied_names":
-			if in.IsNull() {
-				in.Skip()
-				out.DeniedNames = nil
-			} else {
-				in.Delim('[')
-				if out.DeniedNames == nil {
-					if !in.IsDelim(']') {
-						out.DeniedNames = make([]string, 0, 4)
-					} else {
-						out.DeniedNames = []string{}
-					}
-				} else {
-					out.DeniedNames = (out.DeniedNames)[:0]
-				}
-				for !in.IsDelim(']') {
-					var v1 string
-					v1 = string(in.String())
-					out.DeniedNames = append(out.DeniedNames, v1)
-					in.WantComma()
-				}
-				in.Delim(']')
-			}
 		default:
 			in.SkipRecursive()
 		}
@@ -73,22 +50,6 @@ func easyjson6601e8cdEncodeTmpEasyjson(out *jwriter.Writer, in Settings) {
 	out.RawByte('{')
 	first := true
 	_ = first
-	{
-		const prefix string = ",\"denied_names\":"
-		out.RawString(prefix[1:])
-		if in.DeniedNames == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
-			out.RawString("null")
-		} else {
-			out.RawByte('[')
-			for v2, v3 := range in.DeniedNames {
-				if v2 > 0 {
-					out.RawByte(',')
-				}
-				out.String(string(v3))
-			}
-			out.RawByte(']')
-		}
-	}
 	out.RawByte('}')
 }
 
