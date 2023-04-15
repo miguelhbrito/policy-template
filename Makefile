@@ -1,7 +1,7 @@
 SOURCE_FILES := $(shell find . -type f -name '*.go')
 # It's necessary to call cut because kwctl command does not handle version
 # starting with v.
-VERSION := $(subst -, ,$(shell git describe --long --dirty --tags))
+VERSION ?= $(shell git describe | cut -c2-)
 
 
 policy.wasm: $(SOURCE_FILES) go.mod go.sum types_easyjson.go
