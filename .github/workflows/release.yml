@@ -9,53 +9,9 @@ name: Release policy
 
 jobs:
 
-  unit-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: setup Go
-        uses: actions/setup-go@v4
-        with:
-          go-version: 'stable'
-
-      - name: run Go unit tests
-        run: make test
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/setup-go@v4
-        with:
-          go-version: 'stable'
-      - uses: actions/checkout@v3
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v3
-        with:
-          version: 'latest'
-
-  check-artifacthub:
-    if: ${{ inputs.artifacthub }}
-    runs-on: ubuntu-latest
-    steps:
-      -
-        uses: actions/checkout@v3
-        with:
-          # until https://github.com/actions/checkout/pull/579 is released
-          fetch-depth: 0
-      -
-        name: Install kwctl
-        uses: kubewarden/github-actions/kwctl-installer@v3.1.2
-      -
-        id: calculate-version
-        run: echo "version=$(git describe --tags --always  | cut -c2-)" >> $GITHUB_OUTPUT
-        shell: bash
-      -
-        name: Check that artifacthub-pkg.yml is up-to-date
-        uses: kubewarden/github-actions/check-artifacthub@v3.1.2
-        with:
-          version: ${{ steps.calculate-version.outputs.version }}
-          check_version: false # must match a git tag that hasn't been created yet, so let's ignore until then
+  test:
+    name: run tests and linters
+    uses: kubewarden/github-actions/.github/workflows/reusable-test-policy-go.yml@v3.1.1
 
   release:
     needs: test
