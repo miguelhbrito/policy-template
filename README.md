@@ -1,7 +1,3 @@
-# policy-template-open-suse
-
-Technical Assessment - SUSE - Software Engineer - Container Technology
-
 ## Introduction
 
 The policy looks at the `labels` of a Kubernetes Pod and rejects the request
